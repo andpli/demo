@@ -1,11 +1,8 @@
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ParsedLink {
-    private int num;
-    private String link;
-    private String text;
+    private final int num;
+    private final String link;
+    private final String text;
     public ParsedLink(int num, String link, String text) {
         this.num = num;
         this.link = link;
