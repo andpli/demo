@@ -17,35 +17,26 @@ public class LinkStorage {
     }
     private String getContentOfPage(String pageAddress) throws IOException {
         StringBuilder sb = new StringBuilder();
-
         URL pageURL = new URL(pageAddress);
         URLConnection uc = pageURL.openConnection();
-
         try (BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()))) {
             String inputLine;
             while ((inputLine = br.readLine()) != null) {
                 sb.append(inputLine);
             }
         }
-
-
-        // System.out.println(sb);
         return sb.toString();
-
     }
 
-    private String addLinks(String text) {
+    private void addLinks(String text) {
         String[] s;
         StringBuilder sb = new StringBuilder();
         s = text.split("<a ");
         int lj = 0;
         for (int li = 1; li < s.length; li++ ){
-
             int liPos = s[li].indexOf("</a");
-            // System.out.println("***" + liPos);
             if (liPos > 0) {
                 String temp = "<a " + s[li].substring(0, liPos + 4); // + "<br>";
-              //  System.out.println("+++" + temp);
                 liPos = temp.indexOf("href=");
                 String q = temp.substring(liPos + 5, liPos + 6);
                 String href = "";
@@ -53,16 +44,9 @@ public class LinkStorage {
                     href = temp.substring(liPos + 6, temp.indexOf(q, liPos + 7 ));
                     lj++;
                     newLink(lj, href, temp.substring(3, temp.length() - 4));
-                    sb.append("<tr><td>" + lj  + "</td><td><a href='#'>" + href + "</a><br></td><td>" +
-                            temp.substring(3, temp.length() - 4)
-                            + "</td></tr>" );
                 }
-                // System.out.println("-----------" + href);
-                // sb.append(temp);
-
             }
         }
-        return sb.toString();
     }
     private void newLink(int lj, String href, String text) {
         links.add(new ParsedLink(lj, href, text));
